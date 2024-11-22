@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Découvrez votre prochain livre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.50.1/dist/full.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="bg-gray-100 p-10">
+    <div class="max-w-lg mx-auto bg-white shadow-md rounded-md p-8">
+        <h1 class="text-2xl font-bold mb-6 text-center text-slate-800 italic">Découvrez votre prochain livre</h1>
+        <form method="post">
+            <!-- Full Name -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2" for="prenom">Prenom</label>
+                <input type="text" id="prenom" name="prenom" placeholder="John"
+                    class="input input-bordered w-full" value="{{ prenom | default('') }}" required />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2" for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" placeholder="Paul"
+                    class="input input-bordered w-full" value="{{ nom | default('') }}" required />
+            </div>
+            <!-- Date of Birth -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2" for="dob">Date de naissance:</label>
+                <input type="date" id="dob" name="dob" class="input input-bordered w-full" value="{{ dob | default('') }}" required />
+            </div>
+            <!-- Religion -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2">Religion</label>
+                <select name="religion" id="religion" class="select select-bordered w-full" required>
+                    <option value="sans" {% if religion == 'sans' %}selected{% endif %}>Sans</option>
+                    <option value="islam" {% if religion == 'islam' %}selected{% endif %}>Islam</option>
+                    <option value="christians" {% if religion == 'christians' %}selected{% endif %}>Chrétiens</option>
+                    <option value="jeff" {% if religion == 'jeff' %}selected{% endif %}>Judaïque</option>
+                </select>
+            </div>
+            <!-- Study Level -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2">Niveau scolaire</label>
+                <select name="studyLevel" id="studyLevel" class="select select-bordered w-full" required>
+                    <option value="noDegree" {% if studyLevel == 'noDegree' %}selected{% endif %}>Illettré</option>
+                    <option value="bac" {% if studyLevel == 'bac' %}selected{% endif %}>Bac</option>
+                    <option value="bac+2" {% if studyLevel == 'bac+2' %}selected{% endif %}>Bac+2</option>
+                    <option value="bac+5" {% if studyLevel == 'bac+5' %}selected{% endif %}>Bac+5</option>
+                </select>
+            </div>
+            <div class="mt-6 text-center">
+                <button type="submit" class="btn btn-primary w-full">Recommandez-moi un livre</button>
+            </div>
+        </form>
+    </div>
+
+    {% if suggestion %}
+    <div class="italic text-gray-900 font-bold w-3/4 mx-auto leading-8">{{horo | safe}}</div>
+    <div class="mt-10">
+        <h2 class="text-xl font-bold text-center mb-6">Vos suggestions de livres :</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {% for book in books %}
+            <div class="card bg-base-100 shadow-xl">
+               
+                <div class="card-body items-center text-center">
+                    <h2 class="card-title"><img src="{{ book.img }}" alt="{{ book.title }}" class="rounded-xl  " />{{ book.title }}</h2>
+                    <p class="italic text-gray-600">par {{ book.author }}</p>
+                    <p>{{ book.desc }}</p>
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Voir Plus</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    {% endif %}
+</body>
+</html>
